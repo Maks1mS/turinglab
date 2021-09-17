@@ -2,7 +2,8 @@ from setuptools import setup
 
 setup(
     name='turinglab',
-    version='0.1.0',
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     author='Maxim Slipenko',
     packages=['turinglab'],
     install_requires = [
