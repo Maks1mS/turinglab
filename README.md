@@ -21,7 +21,7 @@ turinglab <input_file> <input_string> <output_file>
 ### Example
 
 ```bat
-turinglab 0to1to0.tur 101 out.docx
+turinglab 0to1to0.txt 101 out.docx
 ```
 
 Content of ```out.docx```:
