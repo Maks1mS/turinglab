@@ -1,13 +1,13 @@
 import sys
-from turinglab.input import from_tur
+from turinglab.input import from_file
 from turinglab.emulator import Emulator
 from turinglab.output import to_docx
     
 
 def main():
-    tur, input_string, docx = sys.argv[1:]
+    program_file, input_string, docx = sys.argv[1:]
 
-    [program,_,_] = from_tur(tur)
+    program = from_file(program_file)
 
     tm = Emulator(program, input_string)
 
