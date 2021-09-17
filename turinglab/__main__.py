@@ -1,15 +1,26 @@
 import sys
+from argparse import ArgumentParser
 from turinglab.input import from_file
 from turinglab.emulator import Emulator
 from turinglab.output import to_docx
-    
+
+def get_parser() -> ArgumentParser:
+    parser = ArgumentParser()
+    parser.add_argument("input_file", type=str, help="Path to file with program")
+    parser.add_argument("input_string", type=str, help="Input symbols")
+    parser.add_argument("output_file", type=str, help="Output file")
+
+    return parser
 
 def main():
-    program_file, input_string, docx = sys.argv[1:]
+    parser = get_parser()
 
-    program = from_file(program_file)
+    args = parser.parse_args()
 
-    tm = Emulator(program, input_string)
+
+    program = from_file(args.input_file)
+
+    tm = Emulator(program, args.input_string)
 
     data = [tm.info()]
 
@@ -17,7 +28,7 @@ def main():
         tm.step()
         data.append(tm.info())
 
-    to_docx(docx, data)
+    to_docx(args.output_file, data)
         
 if __name__ == '__main__':
     main()
