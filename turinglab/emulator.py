@@ -24,7 +24,7 @@ class Emulator():
         symbol = self.tape[self.head]
 
         try:
-            symbol, direction, state = self.instructions[self.current_state][symbol]
+            symbol, direction, state = self.instructions[symbol][self.current_state]
             self.tape[self.head] = symbol
 
             self.current_state = state

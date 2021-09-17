@@ -47,3 +47,29 @@ def from_tur(filename):
             solution_dict[i][symbol] = action
 
     return solution_dict, task, description
+
+def from_file(filename: str):
+    f = open(filename, "r")
+
+    program = dict()
+
+    for line in f:
+        symbol, *actions = line.replace("\n", "").split('\t')
+
+        if symbol == " ":
+            symbol = "λ"
+
+        program[symbol] = []
+
+        for action in actions:
+            new_symbol, direction, new_state = list(action)
+
+            if new_symbol == "_":
+                new_symbol = 'λ'
+            new_state = int(new_state) - 1
+
+            program[symbol].append([new_symbol, direction, new_state])
+
+    f.close()
+
+    return program
