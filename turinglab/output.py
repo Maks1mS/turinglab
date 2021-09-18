@@ -1,7 +1,8 @@
+from turinglab.image import get_image
 from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-from docx.shared import Pt
+from docx.shared import Pt, Inches
 from docx.enum.text import WD_LINE_SPACING
 from docx.enum.text import WD_ALIGN_PARAGRAPH 
 
@@ -22,6 +23,8 @@ def to_docx(filename, program, data):
     cols = len(program.keys())
 
     for x in program.keys():
+        if len(list(program[x].keys())) == 0: 
+            continue
         rows = max(list(program[x].keys())[-1] + 1, rows)
 
     program_table = [None] * rows
@@ -51,7 +54,7 @@ def to_docx(filename, program, data):
 
             p.add_run(symbols[j] + ' → ')
             add_state(p, state)
-            p.add_run(symbol + 'R' if direction == '>' else 'L')
+            p.add_run(symbol + ('R' if direction == '>' else 'L'))
 
 
     p = document.add_paragraph()
