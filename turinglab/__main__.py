@@ -28,7 +28,7 @@ def main():
         tm.step()
         data.append(tm.info())
 
-    to_docx(args.output_file, data)
+    to_docx(args.output_file, program, data)
         
 if __name__ == '__main__':
     main()
