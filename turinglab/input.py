@@ -59,16 +59,19 @@ def from_file(filename: str):
         if symbol == " ":
             symbol = "λ"
 
-        program[symbol] = []
+        program[symbol] = dict()
 
-        for action in actions:
+        for i, action in enumerate(actions):
+            if not action: 
+                continue
+
             new_symbol, direction, new_state = list(action)
 
             if new_symbol == "_":
                 new_symbol = 'λ'
             new_state = int(new_state) - 1
 
-            program[symbol].append([new_symbol, direction, new_state])
+            program[symbol][i] = ([new_symbol, direction, new_state])
 
     f.close()
 
