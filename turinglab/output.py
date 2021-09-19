@@ -11,6 +11,16 @@ def add_state(p, state):
     index_text = p.add_run(str('z' if state == -1 else state))
     index_text.font.subscript = True
 
+def create_paragraph(document):
+    p = document.add_paragraph()
+    style_paragraph(p)
+    return p
+
+def style_paragraph(p):
+    p.paragraph_format.space_after = Pt(0)
+    p.paragraph_format.space_before = Pt(0)
+    p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.ONE_POINT_FIVE
+
 def to_docx(filename, program, data):
     document = Document()
     
@@ -44,10 +54,7 @@ def to_docx(filename, program, data):
             action = program_table[i][j]
             if action is None: continue
 
-            p = document.add_paragraph()
-            p.paragraph_format.space_after = Pt(0)
-            p.paragraph_format.space_before = Pt(0)
-            p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+            p = create_paragraph(document)
             add_state(p, i)
 
             symbol, direction, state = action
@@ -57,10 +64,7 @@ def to_docx(filename, program, data):
             p.add_run(symbol + ('R' if direction == '>' else 'L'))
 
 
-    p = document.add_paragraph()
-    p.paragraph_format.space_after = Pt(0)
-    p.paragraph_format.space_before = Pt(0)
-    p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    p = create_paragraph(document)
 
     table = document.add_table(rows + 1, cols + 1)
     table.style = 'Table Grid'
@@ -70,17 +74,13 @@ def to_docx(filename, program, data):
     for i in range(0, rows):
         p = table.rows[i + 1].cells[0].paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p.paragraph_format.space_after = Pt(0)
-        p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+        style_paragraph(p)
         add_state(p, i)
     
     for i, x in enumerate(program.keys()):
         p = table.rows[0].cells[i + 1].paragraphs[0]
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p.paragraph_format.space_after = Pt(0)
-        p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+        style_paragraph(p)
         p.add_run(x)
 
     for i in range(rows):
@@ -90,43 +90,38 @@ def to_docx(filename, program, data):
 
             p = table.rows[i + 1].cells[j + 1].paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            p.paragraph_format.space_after = Pt(0)
-            p.paragraph_format.space_before = Pt(0)
-            p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+            style_paragraph(p)
 
             symbol, direction, state = action
             add_state(p, state)
             p.add_run(symbol)
             p.add_run('R' if direction == '>' else 'L')
 
+    p = create_paragraph(document)
 
-    p = document.add_paragraph()
-    p.paragraph_format.space_after = Pt(0)
-    p.paragraph_format.space_before = Pt(0)
-    p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+    for i, test in enumerate(data):
+        p = create_paragraph(document)
+        p.add_run(f'Test {i + 1}:')
 
-    for i in range(len(data)):
-        p = document.add_paragraph('K')
+        for j, data in enumerate(test):
+            p = create_paragraph(document)
+            p.add_run('K')
 
-        p.paragraph_format.space_after = Pt(0)
-        p.paragraph_format.space_before = Pt(0)
-        p.paragraph_format.line_spacing_rule = WD_LINE_SPACING.DOUBLE
+            index_text = p.add_run(str(j))
+            index_text.font.subscript = True
 
-        index_text = p.add_run(str(i))
-        index_text.font.subscript = True
+            p.add_run(': ')
 
-        p.add_run(': ')
+            head, state, tape = data
+            offset = list(tape.keys())[0]
+            head -= offset
+            tape_str = ''.join(tape.values())
 
-        head, state, tape = data[i]
-        offset = list(tape.keys())[0]
-        head -= offset
-        tape_str = ''.join(tape.values())
+            p.add_run(tape_str[:head].lstrip('λ') + 'q')
 
-        p.add_run(tape_str[:head].lstrip('λ') + 'q')
+            index_text = p.add_run(str('z' if state == -1 else state))
+            index_text.font.subscript = True
 
-        index_text = p.add_run(str('z' if state == -1 else state))
-        index_text.font.subscript = True
-
-        p.add_run(tape_str[head] + tape_str[head + 1:].rstrip('λ'))
+            p.add_run(tape_str[head] + tape_str[head + 1:].rstrip('λ'))
         
     document.save(filename)
