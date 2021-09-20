@@ -38,7 +38,7 @@ def main():
     for test in args.tests:
 
         if args.empty_character:
-            test = test.replace(args.empty_character, 'λ')
+            test = test.replace(args.empty_character, program.blank_symbol)
 
         tm = Emulator(program, test)
 
