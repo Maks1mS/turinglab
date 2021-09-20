@@ -7,7 +7,9 @@ setup(
     author='Maxim Slipenko',
     packages=['turinglab'],
     install_requires = [
-        'python-docx'
+        'python-docx',
+        'pydot',
+        'requests'
     ],
     entry_points = {
         'console_scripts': [
