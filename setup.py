@@ -6,12 +6,12 @@ setup(
     setup_requires=['setuptools_scm'],
     author='Maxim Slipenko',
     packages=['turinglab'],
-    install_requires = [
+    install_requires=[
         'python-docx',
         'pydot',
-        'requests'
-    ],
-    entry_points = {
+        'requests',
+        'sortedcontainers'
+    entry_points={
         'console_scripts': [
             'turinglab = turinglab.__main__:main'
         ]
