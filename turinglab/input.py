@@ -1,5 +1,5 @@
 import csv
-import pprint
+import re
 
 def from_tur(filename):
     f = open(filename, "rb")
@@ -65,7 +65,7 @@ def from_file(filename: str):
             if not action: 
                 continue
 
-            new_symbol, direction, new_state = list(action)
+            new_symbol, direction, new_state = re.split('([<|>|.])', action)
 
             if new_symbol == "_":
                 new_symbol = 'λ'

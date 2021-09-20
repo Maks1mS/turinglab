@@ -1,5 +1,11 @@
 from collections import defaultdict
 
+DIRECTIONS = {
+    '>': 1,
+    '<': -1,
+    '.': 0
+}
+
 
 class Emulator():
     '''
@@ -28,7 +34,7 @@ class Emulator():
             self.tape[self.head] = symbol
 
             self.current_state = state
-            self.head += 1 if direction == '>' else -1
+            self.head += DIRECTIONS[direction]
             
             self.tape[self.head] = self.tape[self.head]
             
@@ -44,6 +50,5 @@ class Emulator():
     def info(self):
         return [self.head, self.current_state, defaultdict(lambda: self.blank_symbol, self.tape)]
 
-        
         
 
