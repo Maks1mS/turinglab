@@ -15,7 +15,7 @@ python setup.py develop
 ## Usage
 
 ```bat
-turinglab <input_file> <input_string> <output_file>
+turinglab input_file output_dir [-t TESTS [TESTS ...]] [-e EMPTY_CHARACTER] [-f]
 ```
 
 ### Example
