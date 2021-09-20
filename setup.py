@@ -11,6 +11,7 @@ setup(
         'pydot',
         'requests',
         'sortedcontainers'
+    ],
     entry_points={
         'console_scripts': [
             'turinglab = turinglab.__main__:main'
