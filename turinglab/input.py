@@ -20,8 +20,8 @@ def from_file(filename: str):
             if not action:
                 continue
 
-            new_symbol, direction, new_state = re.split('([<|>|.])', action)
-            new_state = int(new_state) - 1
+            new_symbol, direction, *new_state = action
+            new_state = int(''.join(new_state)) - 1
 
             movement = {
                 '>': Movemement.R,
@@ -30,8 +30,6 @@ def from_file(filename: str):
             }[direction]
 
             program.set(i, symbol, Action(new_state, new_symbol, movement))
-
-            # program[symbol][i] = ([new_symbol, direction, new_state])
 
     f.close()
 
