@@ -3,7 +3,7 @@
 ## Installation
 
 ```bat
-pip install git+https://github.com/Maks1mS/turinglab.git
+pip install git+https://git.slipenko.com/UniversityProjects/turinglab.git
 ```
 
 ## Develop
